@@ -185,7 +185,7 @@ pub struct BamboraErrorResponse {
 
 #[derive(Debug, Default, Eq, PartialEq, Deserialize, Serialize)]
 pub struct ErrorDetails {
-    pub code: Option<String>,
+    pub code: String,
     pub category: Option<String>,
-    pub message: Option<String>,
+    pub message: String,
 }

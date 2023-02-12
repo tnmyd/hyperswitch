@@ -323,7 +323,16 @@ impl ConnectorIntegration<api::Authorize, types::PaymentsAuthorizeData, types::P
         &self,
         res: Response,
     ) -> CustomResult<ErrorResponse, errors::ConnectorError> {
-        self.build_error_response(res)
+        let response: bambora::BamboraErrorResponse = res
+            .response
+            .parse_struct("BamboraErrorResponse")
+            .change_context(errors::ConnectorError::ResponseDeserializationFailed)?;
+            Ok(types::ErrorResponse {
+                status_code: res.status_code,
+                code: response.error.code,
+                message: response.error.message,
+                reason: None,
+            })
     }
 }
 
